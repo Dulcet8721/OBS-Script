@@ -1,0 +1,23 @@
+{
+  "ScriptDescription": " ",
+  "GroupSwitcherManagement": "Source switcher management",
+  "GroupSwitcherSettings": "Source switcher settings",
+  "DisplaySource": "Display capture source name<br>(case-sensitive)",
+  "GameSource": "Game capture source name<br>(case-sensitive)",
+  "WindowSources": "Window capture source names<br>(comma-separated, case-sensitive)",
+  "Blacklist": "Game capture source blacklist processes<br>(comma-separated, case-insensitive)",
+  "SceneBlacklist": "Source switcher scene blacklist<br>(comma-separated, case-sensitive)",
+  "SwitcherEnabled": "Enable source switcher",
+  "StretchEnabled": "Stretch sources to screen bounds",
+  "DisplayCheckEnabled": "Enable screen capture source verification",
+  "GroupHotkeys": "Hotkey management",
+  "ToggleOBSUIEnabled": "Enable toggle OBS interface hotkey",
+  "ScriptWindowEnabled": "Open the scripts window along with OBS",
+  "GroupCompress": "Video compression",
+  "InputFile": "Select video file",
+  "CRFValue": "Compression level (CRF)",
+  "CompressButton": "Compress video file",
+  "HotkeyToggleOBSUI": "Toggle OBS interface",
+  "UseHWDecoding": "Use hardware decoding                                                  ",
+  "VideoFilesFilter": "Video files (*.flv *.mkv *.mp4 *.mov *.ts);;All files (*.*)"
+}
