@@ -96,7 +96,7 @@ local CP_UTF8 = 65001
 local SCRIPTS_RU = "Скрипты"
 local SCRIPTS_EN = "Scripts"
 local RESET_DELAY_MS = 3000
-local DISPLAY_CHECK_DELAY_MS = 1500
+local DISPLAY_CHECK_DELAY_MS = 500
 local NULL_HANDLE = ffi.cast("HANDLE", 0)
 local INVALID_HANDLE_VALUE = ffi.cast("HANDLE", -1)
 local NULL_HWND = ffi.cast("HWND", 0)
@@ -1057,20 +1057,37 @@ local function check_display_source()
     local item = obs.obs_scene_find_source(scene, display_source_name)
     if not item then return end
     local was_visible = obs.obs_sceneitem_visible(item)
-    if was_visible then
-        perform_display_check(item, false)
-    else
+    if not was_visible then
         obs.obs_sceneitem_set_visible(item, true)
-        display_check_pending = { item = item, start_time = now_ms() }
     end
+    display_check_pending = {
+        item = item,
+        start_time = now_ms(),
+        restore_hidden = not was_visible,
+    }
 end
 
 local function tick_display_check()
     if not display_check_pending then return end
     if now_ms() - display_check_pending.start_time < DISPLAY_CHECK_DELAY_MS then return end
     local item = display_check_pending.item
+    local source = obs.obs_sceneitem_get_source(item)
+    if source == nil then
+        display_check_pending = nil
+        return
+    end
+    local width = obs.obs_source_get_width(source)
+    local height = obs.obs_source_get_height(source)
+    local restore_hidden = display_check_pending.restore_hidden
     display_check_pending = nil
-    perform_display_check(item, true)
+    if width == 0 or height == 0 then
+        if obs.obs_frontend_open_source_properties ~= nil then
+            obs.obs_frontend_open_source_properties(source)
+        end
+    end
+    if restore_hidden then
+        obs.obs_sceneitem_set_visible(item, false)
+    end
 end
 
 local function on_scene_changed(event, data)
